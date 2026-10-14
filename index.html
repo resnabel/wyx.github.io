@@ -163,6 +163,7 @@ button{
 function start(){
 
 
+
 document.querySelector("button").style.display="none";
 
 document.querySelector("#phone").style.display="none";
@@ -196,10 +197,10 @@ let i=0;
 let progress=0;
 
 
-let timer=setInterval(()=>{
+let timer=setInterval(function(){
 
 
-progress+=Math.floor(Math.random()*8)+3;
+progress += Math.floor(Math.random()*10)+3;
 
 
 if(progress>=99){
@@ -212,13 +213,67 @@ progress=99;
 bar.style.width=progress+"%";
 
 
-if(i<steps.length){
+if(i < steps.length){
 
-text.innerHTML=steps[i];
+text.innerHTML = steps[i];
 
 i++;
 
 }
+
+
+// 检测完成
+
+if(i>=steps.length && progress>=99){
+
+
+clearInterval(timer);
+
+
+setTimeout(function(){
+
+
+text.innerHTML=
+"正在上传数据...";
+
+
+bar.style.width="100%";
+
+
+
+setTimeout(function(){
+
+
+text.innerHTML=
+
+`
+<h2 style="color:red">
+UPLOAD FAILED
+</h2>
+
+<p>
+错误代码：WYXSQ-404
+</p>
+
+<p>
+失败原因：
+<br>
+王语轩是区
+</p>
+`;
+
+
+
+},3000);
+
+
+
+},2000);
+
+
+
+}
+
 
 
 },1200);
@@ -226,6 +281,7 @@ i++;
 
 
 }
+
 
 
 </script>
