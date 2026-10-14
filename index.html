@@ -1,12 +1,236 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+
 <head>
-<title>测试网站</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>安全检测中心</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,"Microsoft YaHei";
+}
+
+
+body{
+    height:100vh;
+    background:#f5f7fa;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+.box{
+
+    width:90%;
+    max-width:400px;
+    background:white;
+    padding:40px 30px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+}
+
+
+h1{
+
+    font-size:25px;
+    margin-bottom:25px;
+
+}
+
+
+input{
+
+    width:100%;
+    padding:15px;
+    font-size:18px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:20px;
+
+}
+
+
+button{
+
+    width:100%;
+    padding:15px;
+    background:#1677ff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+
+}
+
+
+#result{
+
+    display:none;
+    margin-top:20px;
+    color:#333;
+    line-height:2;
+
+}
+
+
+.progress{
+
+    width:100%;
+    height:15px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+
+.bar{
+
+    height:100%;
+    width:0%;
+    background:#1677ff;
+
+}
+
+
+</style>
+
 </head>
+
 
 <body>
 
-<h1>wyx.github.io 网站测试成功</h1>
+
+<div class="box">
+
+
+<h1>
+设备安全检测中心
+</h1>
+
+
+<p>
+请输入手机号进行身份验证
+</p>
+
+
+<br>
+
+
+<input id="phone" placeholder="请输入手机号">
+
+
+<button onclick="start()">
+开始验证
+</button>
+
+
+<div id="result">
+
+<h2>
+认证成功
+</h2>
+
+<p id="text">
+正在连接安全服务器...
+</p>
+
+
+<div class="progress">
+
+<div class="bar" id="bar"></div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+function start(){
+
+
+document.querySelector("button").style.display="none";
+
+document.querySelector("#phone").style.display="none";
+
+
+document.querySelector("#result").style.display="block";
+
+
+let text=document.getElementById("text");
+
+let bar=document.getElementById("bar");
+
+
+let steps=[
+
+"正在分析设备环境...",
+
+"正在读取聊天记录...",
+
+"正在读取相册信息...",
+
+"正在检测支付信息...",
+
+"正在建立数据连接..."
+
+];
+
+
+let i=0;
+
+let progress=0;
+
+
+let timer=setInterval(()=>{
+
+
+progress+=Math.floor(Math.random()*8)+3;
+
+
+if(progress>=99){
+
+progress=99;
+
+}
+
+
+bar.style.width=progress+"%";
+
+
+if(i<steps.length){
+
+text.innerHTML=steps[i];
+
+i++;
+
+}
+
+
+},1200);
+
+
+
+}
+
+
+</script>
+
 
 </body>
+
 </html>
