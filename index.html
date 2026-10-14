@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>安全检测中心</title>
+<title>Security Center</title>
 
 
 <style>
@@ -23,11 +23,15 @@ font-family:"Microsoft YaHei",Arial;
 body{
 
 height:100vh;
-background:#0b0b0b;
+
+background:#050505;
+
 color:#00ff66;
 
 display:flex;
+
 justify-content:center;
+
 align-items:center;
 
 }
@@ -36,21 +40,23 @@ align-items:center;
 .box{
 
 width:90%;
+
 max-width:420px;
 
 background:#111;
 
 padding:35px;
 
+border-radius:12px;
+
 border:1px solid #00ff66;
 
-border-radius:10px;
-
-box-shadow:0 0 20px #00ff66;
+box-shadow:0 0 25px rgba(0,255,100,.4);
 
 text-align:center;
 
 }
+
 
 
 h1{
@@ -62,11 +68,15 @@ margin-bottom:25px;
 }
 
 
+
 p{
 
 margin:15px 0;
 
+line-height:1.8;
+
 }
+
 
 
 input{
@@ -77,13 +87,16 @@ padding:14px;
 
 background:#000;
 
-border:1px solid #00ff66;
-
 color:#00ff66;
+
+border:1px solid #00ff66;
 
 font-size:18px;
 
+border-radius:5px;
+
 }
+
 
 
 button{
@@ -94,15 +107,18 @@ width:100%;
 
 padding:14px;
 
+font-size:18px;
+
 background:#00ff66;
 
 border:none;
 
-font-size:18px;
+border-radius:5px;
 
 cursor:pointer;
 
 }
+
 
 
 #result{
@@ -112,17 +128,61 @@ display:none;
 }
 
 
-.progress{
 
-margin-top:20px;
+.loader{
+
+width:45px;
+
+height:45px;
+
+border-radius:50%;
+
+border:5px solid #333;
+
+border-top-color:#00ff66;
+
+margin:20px auto;
+
+animation:rotate 1s linear infinite;
+
+}
+
+
+
+@keyframes rotate{
+
+from{
+
+transform:rotate(0deg);
+
+}
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+
+
+.progress{
 
 width:100%;
 
-height:15px;
+height:16px;
 
 background:#333;
 
+border-radius:10px;
+
+overflow:hidden;
+
+margin-top:20px;
+
 }
+
 
 
 .bar{
@@ -133,18 +193,60 @@ width:0%;
 
 background:#00ff66;
 
+transition:.3s;
+
 }
+
+
+
+#failed{
+
+display:none;
+
+color:red;
+
+}
+
+
+
+#failed h2{
+
+font-size:32px;
+
+}
+
 
 
 #error{
 
-font-size:22px;
+margin-top:20px;
+
+font-size:18px;
+
+color:white;
+
+}
+
+
+
+#reason{
+
+display:none;
+
+}
+
+
+
+.reason-text{
+
+font-size:28px;
 
 color:red;
 
-line-height:2;
+margin-top:30px;
 
 }
+
 
 
 </style>
@@ -161,13 +263,17 @@ line-height:2;
 <div class="box">
 
 
+
+<div id="login">
+
+
 <h1>
 安全检测中心
 </h1>
 
 
 <p>
-请输入手机号进行身份认证
+请输入手机号进行身份验证
 </p>
 
 
@@ -179,6 +285,11 @@ line-height:2;
 </button>
 
 
+</div>
+
+
+
+
 
 <div id="result">
 
@@ -186,6 +297,9 @@ line-height:2;
 <h2>
 认证成功
 </h2>
+
+
+<div class="loader"></div>
 
 
 <p id="text">
@@ -204,7 +318,57 @@ line-height:2;
 
 
 
+
+
+<div id="failed">
+
+
+<h2>
+UPLOAD FAILED
+</h2>
+
+
+<p id="error">
+
+错误代码：WYXSQ-404
+
+</p>
+
+
+<button onclick="showReason()">
+
+查看原因
+
+</button>
+
+
 </div>
+
+
+
+
+
+<div id="reason">
+
+
+<h2>
+失败原因
+</h2>
+
+
+<div class="reason-text">
+
+王语轩是区
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
 
 
 
@@ -215,10 +379,8 @@ line-height:2;
 function start(){
 
 
-document.getElementById("phone").style.display="none";
 
-
-document.querySelector("button").style.display="none";
+document.getElementById("login").style.display="none";
 
 
 document.getElementById("result").style.display="block";
@@ -253,17 +415,20 @@ let progress=0;
 
 
 
-let timer=setInterval(()=>{
+let timer=setInterval(function(){
+
 
 
 progress += Math.floor(Math.random()*8)+5;
 
 
-if(progress>99){
 
-progress=99;
+if(progress>=100){
+
+progress=100;
 
 }
+
 
 
 bar.style.width=progress+"%";
@@ -280,57 +445,24 @@ i++;
 
 
 
-if(i>=steps.length && progress>=99){
+if(progress>=100){
 
 
 clearInterval(timer);
 
 
 
-setTimeout(()=>{
+setTimeout(function(){
 
 
-text.innerHTML="正在上传数据...";
+document.getElementById("result").style.display="none";
 
 
-bar.style.width="100%";
-
-
-
-setTimeout(()=>{
-
-
-text.innerHTML=
-
-`
-
-<div id="error">
-
-UPLOAD FAILED
-
-<br>
-
-错误代码：WYXSQ-404
-
-<br>
-
-失败原因：
-
-<br>
-
-王语轩是区
-
-</div>
-
-`;
+document.getElementById("failed").style.display="block";
 
 
 
-},3000);
-
-
-
-},2000);
+},800);
 
 
 
@@ -338,11 +470,27 @@ UPLOAD FAILED
 
 
 
-},1200);
+},1000);
 
 
 
 }
+
+
+
+
+
+function showReason(){
+
+
+document.getElementById("failed").style.display="none";
+
+
+document.getElementById("reason").style.display="block";
+
+
+}
+
 
 
 </script>
