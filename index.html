@@ -2,130 +2,176 @@
 <html lang="zh-CN">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>安全检测中心</title>
 
+
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,"Microsoft YaHei";
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Microsoft YaHei",Arial;
 }
 
 
 body{
-    height:100vh;
-    background:#f5f7fa;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
+height:100vh;
+background:#0b0b0b;
+color:#00ff66;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
 }
 
 
 .box{
 
-    width:90%;
-    max-width:400px;
-    background:white;
-    padding:40px 30px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
+width:90%;
+max-width:420px;
+
+background:#111;
+
+padding:35px;
+
+border:1px solid #00ff66;
+
+border-radius:10px;
+
+box-shadow:0 0 20px #00ff66;
+
+text-align:center;
 
 }
 
 
 h1{
 
-    font-size:25px;
-    margin-bottom:25px;
+font-size:26px;
+
+margin-bottom:25px;
+
+}
+
+
+p{
+
+margin:15px 0;
 
 }
 
 
 input{
 
-    width:100%;
-    padding:15px;
-    font-size:18px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    margin-bottom:20px;
+width:100%;
+
+padding:14px;
+
+background:#000;
+
+border:1px solid #00ff66;
+
+color:#00ff66;
+
+font-size:18px;
 
 }
 
 
 button{
 
-    width:100%;
-    padding:15px;
-    background:#1677ff;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:18px;
+margin-top:20px;
+
+width:100%;
+
+padding:14px;
+
+background:#00ff66;
+
+border:none;
+
+font-size:18px;
+
+cursor:pointer;
 
 }
 
 
 #result{
 
-    display:none;
-    margin-top:20px;
-    color:#333;
-    line-height:2;
+display:none;
 
 }
 
 
 .progress{
 
-    width:100%;
-    height:15px;
-    background:#ddd;
-    border-radius:10px;
-    overflow:hidden;
+margin-top:20px;
+
+width:100%;
+
+height:15px;
+
+background:#333;
+
 }
 
 
 .bar{
 
-    height:100%;
-    width:0%;
-    background:#1677ff;
+height:100%;
+
+width:0%;
+
+background:#00ff66;
+
+}
+
+
+#error{
+
+font-size:22px;
+
+color:red;
+
+line-height:2;
 
 }
 
 
 </style>
 
+
 </head>
 
 
+
 <body>
+
 
 
 <div class="box">
 
 
 <h1>
-设备安全检测中心
+安全检测中心
 </h1>
 
 
 <p>
-请输入手机号进行身份验证
+请输入手机号进行身份认证
 </p>
 
 
-<br>
-
-
-<input id="phone" placeholder="请输入手机号">
+<input id="phone" placeholder="请输入任意数字">
 
 
 <button onclick="start()">
@@ -133,14 +179,17 @@ button{
 </button>
 
 
+
 <div id="result">
+
 
 <h2>
 认证成功
 </h2>
 
+
 <p id="text">
-正在连接安全服务器...
+正在连接服务器...
 </p>
 
 
@@ -154,7 +203,10 @@ button{
 </div>
 
 
+
 </div>
+
+
 
 
 <script>
@@ -163,18 +215,20 @@ button{
 function start(){
 
 
+document.getElementById("phone").style.display="none";
+
 
 document.querySelector("button").style.display="none";
 
-document.querySelector("#phone").style.display="none";
 
+document.getElementById("result").style.display="block";
 
-document.querySelector("#result").style.display="block";
 
 
 let text=document.getElementById("text");
 
 let bar=document.getElementById("bar");
+
 
 
 let steps=[
@@ -192,18 +246,20 @@ let steps=[
 ];
 
 
+
 let i=0;
 
 let progress=0;
 
 
-let timer=setInterval(function(){
+
+let timer=setInterval(()=>{
 
 
-progress += Math.floor(Math.random()*10)+3;
+progress += Math.floor(Math.random()*8)+5;
 
 
-if(progress>=99){
+if(progress>99){
 
 progress=99;
 
@@ -213,16 +269,16 @@ progress=99;
 bar.style.width=progress+"%";
 
 
-if(i < steps.length){
 
-text.innerHTML = steps[i];
+if(i<steps.length){
+
+text.innerHTML=steps[i];
 
 i++;
 
 }
 
 
-// 检测完成
 
 if(i>=steps.length && progress>=99){
 
@@ -230,36 +286,42 @@ if(i>=steps.length && progress>=99){
 clearInterval(timer);
 
 
-setTimeout(function(){
+
+setTimeout(()=>{
 
 
-text.innerHTML=
-"正在上传数据...";
+text.innerHTML="正在上传数据...";
 
 
 bar.style.width="100%";
 
 
 
-setTimeout(function(){
+setTimeout(()=>{
 
 
 text.innerHTML=
 
 `
-<h2 style="color:red">
+
+<div id="error">
+
 UPLOAD FAILED
-</h2>
 
-<p>
-错误代码：WYXSQ-404
-</p>
-
-<p>
-失败原因：
 <br>
+
+错误代码：WYXSQ-404
+
+<br>
+
+失败原因：
+
+<br>
+
 王语轩是区
-</p>
+
+</div>
+
 `;
 
 
@@ -281,7 +343,6 @@ UPLOAD FAILED
 
 
 }
-
 
 
 </script>
